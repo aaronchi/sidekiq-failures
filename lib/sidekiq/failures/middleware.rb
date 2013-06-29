@@ -25,7 +25,7 @@ module Sidekiq
         }
 
         Sidekiq.redis do |conn|
-          conn.rpush(:failed, Sidekiq.dump_json(data))
+          conn.lpush(:failed, Sidekiq.dump_json(data))
           unless Sidekiq.failures_max_count == false
             conn.ltrim(:failed, (-Sidekiq.failures_max_count), -1)
           end
